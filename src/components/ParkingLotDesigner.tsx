@@ -141,13 +141,11 @@ const ParkingLotDesigner: React.FC = () => {
 
   return (
     <div style={containerStyle}>
-      <h1 style={h1Style}>Parking Lot Layout Designer</h1>
-
       <section style={sectionStyle}>
-        <h2 style={h2Style}>Upload AutoCAD DXF File</h2>
+        <h2 style={h2Style}>Upload AutoCAD DXF/DWG File</h2>
         <input 
           type="file" 
-          accept=".dxf" 
+          accept=".dxf,.dwg" 
           onChange={handleFileUpload} 
           style={inputStyle}
         />
