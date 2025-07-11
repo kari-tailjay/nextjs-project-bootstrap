@@ -70,31 +70,106 @@ const ParkingLotDesigner: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
-  return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">Parking Lot Layout Designer</h1>
+  const containerStyle = {
+    maxWidth: "768px",
+    margin: "0 auto",
+    padding: "40px 20px"
+  };
 
-      <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Upload AutoCAD DXF File</h2>
-        <input type="file" accept=".dxf" onChange={handleFileUpload} className="mb-4" />
+  const h1Style = {
+    fontSize: "2rem",
+    fontWeight: "600",
+    marginBottom: "24px",
+    textAlign: "center" as const
+  };
+
+  const h2Style = {
+    fontSize: "1.25rem",
+    fontWeight: "600",
+    marginBottom: "12px"
+  };
+
+  const sectionStyle = {
+    marginBottom: "40px"
+  };
+
+  const labelStyle = {
+    display: "block",
+    fontWeight: "500",
+    marginBottom: "4px"
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: "8px 12px",
+    border: "1px solid #d1d5db",
+    borderRadius: "6px",
+    fontSize: "14px",
+    marginBottom: "16px"
+  };
+
+  const buttonStyle = {
+    backgroundColor: "#111827",
+    color: "#ffffff",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "6px",
+    fontSize: "14px",
+    fontWeight: "500",
+    cursor: "pointer",
+    marginRight: "8px"
+  };
+
+  const buttonSecondaryStyle = {
+    backgroundColor: "#ffffff",
+    color: "#111827",
+    padding: "8px 16px",
+    border: "1px solid #d1d5db",
+    borderRadius: "6px",
+    fontSize: "14px",
+    fontWeight: "500",
+    cursor: "pointer",
+    marginBottom: "8px",
+    marginRight: "8px"
+  };
+
+  const buttonSelectedStyle = {
+    ...buttonSecondaryStyle,
+    backgroundColor: "#111827",
+    color: "#ffffff"
+  };
+
+  return (
+    <div style={containerStyle}>
+      <h1 style={h1Style}>Parking Lot Layout Designer</h1>
+
+      <section style={sectionStyle}>
+        <h2 style={h2Style}>Upload AutoCAD DXF File</h2>
+        <input 
+          type="file" 
+          accept=".dxf" 
+          onChange={handleFileUpload} 
+          style={inputStyle}
+        />
         {parsedData && (
-          <div className="mb-4">
-            <p>Parsed {parsedData.polygons.length} lot boundary polygon(s), {parsedData.obstacles.length} obstacle(s), and {parsedData.entryPoints.length} entry/exit point(s).</p>
+          <div style={{ marginBottom: "16px", padding: "12px", backgroundColor: "#f9fafb", borderRadius: "6px" }}>
+            <p style={{ margin: 0, fontSize: "14px" }}>
+              Parsed {parsedData.polygons.length} lot boundary polygon(s), {parsedData.obstacles.length} obstacle(s), and {parsedData.entryPoints.length} entry/exit point(s).
+            </p>
           </div>
         )}
       </section>
 
-      <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Design Constraints</h2>
+      <section style={sectionStyle}>
+        <h2 style={h2Style}>Design Constraints</h2>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             generateLayout();
           }}
-          className="space-y-4"
         >
           <div>
-            <label className="block font-medium mb-1">Slot Width (m)</label>
+            <label style={labelStyle}>Slot Width (m)</label>
             <input
               type="number"
               step="0.1"
@@ -103,12 +178,12 @@ const ParkingLotDesigner: React.FC = () => {
               onChange={(e) =>
                 setConstraints({ ...constraints, slotWidth: parseFloat(e.target.value) })
               }
-              className="w-full border rounded px-3 py-2"
+              style={inputStyle}
               required
             />
           </div>
           <div>
-            <label className="block font-medium mb-1">Slot Length (m)</label>
+            <label style={labelStyle}>Slot Length (m)</label>
             <input
               type="number"
               step="0.1"
@@ -117,12 +192,12 @@ const ParkingLotDesigner: React.FC = () => {
               onChange={(e) =>
                 setConstraints({ ...constraints, slotLength: parseFloat(e.target.value) })
               }
-              className="w-full border rounded px-3 py-2"
+              style={inputStyle}
               required
             />
           </div>
           <div>
-            <label className="block font-medium mb-1">Aisle Width (m)</label>
+            <label style={labelStyle}>Aisle Width (m)</label>
             <input
               type="number"
               step="0.1"
@@ -131,12 +206,12 @@ const ParkingLotDesigner: React.FC = () => {
               onChange={(e) =>
                 setConstraints({ ...constraints, aisleWidth: parseFloat(e.target.value) })
               }
-              className="w-full border rounded px-3 py-2"
+              style={inputStyle}
               required
             />
           </div>
           <div>
-            <label className="block font-medium mb-1">Allowed Angles (degrees, comma separated)</label>
+            <label style={labelStyle}>Allowed Angles (degrees, comma separated)</label>
             <input
               type="text"
               value={constraints.angles.join(", ")}
@@ -147,12 +222,12 @@ const ParkingLotDesigner: React.FC = () => {
                   .filter((a) => !isNaN(a));
                 setConstraints({ ...constraints, angles });
               }}
-              className="w-full border rounded px-3 py-2"
+              style={inputStyle}
               required
             />
           </div>
           <div>
-            <label className="block font-medium mb-1">Turning Radius (m)</label>
+            <label style={labelStyle}>Turning Radius (m)</label>
             <input
               type="number"
               step="0.1"
@@ -161,42 +236,33 @@ const ParkingLotDesigner: React.FC = () => {
               onChange={(e) =>
                 setConstraints({ ...constraints, turningRadius: parseFloat(e.target.value) })
               }
-              className="w-full border rounded px-3 py-2"
+              style={inputStyle}
               required
             />
           </div>
-          <button
-            type="submit"
-            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
-          >
+          <button type="submit" style={buttonStyle}>
             Generate Layout
           </button>
         </form>
       </section>
 
       {models.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">Generated Parking Lot Models</h2>
-          <ul className="space-y-2">
+        <section style={sectionStyle}>
+          <h2 style={h2Style}>Generated Parking Lot Models</h2>
+          <div style={{ marginBottom: "16px" }}>
             {models.map((model, index) => (
-              <li key={index}>
-                <button
-                  className={`px-4 py-2 rounded border ${
-                    selectedModelIndex === index ? "bg-black text-white" : "bg-white text-black"
-                  }`}
-                  onClick={() => setSelectedModelIndex(index)}
-                >
-                  Model {index + 1} - Slots: {model.totalSlots}
-                </button>
-              </li>
-            ))}
-          </ul>
-          {selectedModelIndex !== null && (
-            <div className="mt-4">
               <button
-                onClick={exportSelectedModelDXF}
-                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+                key={index}
+                style={selectedModelIndex === index ? buttonSelectedStyle : buttonSecondaryStyle}
+                onClick={() => setSelectedModelIndex(index)}
               >
+                Model {index + 1} - Slots: {model.totalSlots}
+              </button>
+            ))}
+          </div>
+          {selectedModelIndex !== null && (
+            <div>
+              <button onClick={exportSelectedModelDXF} style={buttonStyle}>
                 Export Selected Model as DXF
               </button>
             </div>
